@@ -1,0 +1,15 @@
+FROM python:3.12-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl ca-certificates git build-essential \
+  && rm -rf /var/lib/apt/lists/*
+
+ENV GO_VERSION=1.22.10
+RUN curl -fsSL https://go.dev/dl/go${GO_VERSION}.linux-amd64.tar.gz -o /tmp/go.tgz \
+  && rm -rf /usr/local/go \
+  && tar -C /usr/local -xzf /tmp/go.tgz \
+  && rm /tmp/go.tgz
+
+ENV PATH="/usr/local/go/bin:${PATH}"
+
+WORKDIR /app
